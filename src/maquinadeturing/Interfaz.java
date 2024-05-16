@@ -5,6 +5,8 @@
  */
 package maquinadeturing;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 /**
@@ -16,12 +18,26 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * Creates new form Interfaz
      */
+    char[] arregloCaracteres;
+    String completa;
     public JTextField[] valores;
     public Interfaz() {
         initComponents();
-        colocarTextField(5);
+        
     }
     
+    public void obtenerTexto()
+    {
+        
+        String palabra = txtPalabra.getText();
+        String simboloDelta = "XX";
+        completa = simboloDelta + palabra + simboloDelta;
+        arregloCaracteres = completa.toCharArray();
+        System.out.println(completa);
+    }
+    
+    
+           
     
     
     public void colocarTextField(int tamanio)
@@ -37,14 +53,10 @@ public class Interfaz extends javax.swing.JFrame {
             jPanel1.add(valores[i]);
             jPanel1.setComponentZOrder(valores[i], 0);
             valores[i].setEditable(false);
+            valores[i].setText(String.valueOf(arregloCaracteres[i]));
             jPanel1.revalidate();
             jPanel1.repaint();
         }
-    }
-    
-    public void colocarFlecha()
-    {
-        String imagePath = "ruta/a/tu/imagen.jpg";
     }
     
     /**
@@ -67,7 +79,7 @@ public class Interfaz extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        flecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -164,8 +176,8 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 590, 50));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha.png"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 40, 40));
+        flecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flecha.png"))); // NOI18N
+        jPanel1.add(flecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 40, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 630));
 
@@ -173,7 +185,10 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        obtenerTexto();
+        colocarTextField(completa.length());
+        Palabra si = new Palabra(flecha, valores, arregloCaracteres);
+        si.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtPalabraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPalabraKeyTyped
@@ -219,11 +234,11 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel flecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
