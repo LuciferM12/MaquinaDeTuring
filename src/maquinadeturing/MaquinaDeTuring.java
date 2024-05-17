@@ -23,7 +23,11 @@ public class MaquinaDeTuring {
         System.out.println(completa);
         char[] arregloCaracteres = completa.toCharArray();
         */
-        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Interfaz().setVisible(true);
+            }
+        });
     }
     
 }
