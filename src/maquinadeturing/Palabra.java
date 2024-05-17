@@ -6,9 +6,11 @@
 package maquinadeturing;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -22,13 +24,17 @@ public class Palabra extends Thread {
     public int estado = 0;
     public char[] arregloCaracteres;
     public JTextField[] valores;
-    public Palabra(JLabel flecha, JTextField[] valores, char[] arregloCaracteres)
+    public JTable pal;
+    public int contador = 0;
+    public Palabra(JLabel flecha, JTextField[] valores, char[] arregloCaracteres, JTable pal)
     {
         this.flecha = flecha;
         this.arregloCaracteres = arregloCaracteres;
         this.valores = valores;
+        this.pal = pal;
+        
     }
-    
+    ArrayList<ArrayList<String>> arrayListBidimensional = new ArrayList<>();
     public void run()
     {
         
@@ -47,7 +53,7 @@ public class Palabra extends Thread {
                     arregloCaracteres[posicion] = 'Y';
                     valores[posicion].setText(String.valueOf('Y'));
                     estado = 1;
-                    
+                    generarArreglo("regla: (i,a) = (q1, Y, R)", "q1", "Revisando");
                     System.out.println(arregloCaracteres);
                     Movimiento a = new Movimiento(flecha , 20, 1);
                     try {
@@ -74,6 +80,7 @@ public class Palabra extends Thread {
                         arregloCaracteres[posicion] = 'Y';
                         valores[posicion].setText(String.valueOf('Y'));
                         estado = 4;
+                        generarArreglo("regla: (i,b) = (q4, Y, R)", "q4", "Revisando");
                         System.out.println(arregloCaracteres);
                         Movimiento a = new Movimiento(flecha , 20, 1);
                         try {
@@ -99,6 +106,7 @@ public class Palabra extends Thread {
                             arregloCaracteres[posicion] = 'Y';
                             valores[posicion].setText(String.valueOf('Y'));
                             estado = 100;
+                            generarArreglo("regla: (i,Y) = (t, Y, R)", "t", "ACEPTADO");
                             System.out.println(arregloCaracteres);
                             System.out.println("ACEPTADO");
                             break;
@@ -117,6 +125,7 @@ public class Palabra extends Thread {
                         arregloCaracteres[posicion] = 'a';
                         valores[posicion].setText(String.valueOf('a'));
                         estado = 1;
+                        generarArreglo("regla: (q1,a) = (q1, a, R)", "q1", "Revisando");
                         System.out.println(arregloCaracteres);
                         Movimiento a = new Movimiento(flecha , 20, 1);
                         try {
@@ -143,7 +152,7 @@ public class Palabra extends Thread {
                             arregloCaracteres[posicion] = 'b';
                             valores[posicion].setText(String.valueOf('b'));
                             estado = 1;
-                            
+                            generarArreglo("regla: (q1,b) = (q1, b, R)", "q1", "Revisando");
                             System.out.println(arregloCaracteres);
                             Movimiento a = new Movimiento(flecha , 20, 1);
                             try {
@@ -170,6 +179,7 @@ public class Palabra extends Thread {
                                 arregloCaracteres[posicion] = 'X';
                                 valores[posicion].setText(String.valueOf('X'));
                                 estado = 2;
+                                generarArreglo("regla: (q1,X) = (q2, X, L)", "q2", "Revisando");
                                 System.out.println(arregloCaracteres);
                                 Movimiento a = new Movimiento(flecha , -20, 0);
                                 try {
@@ -195,7 +205,7 @@ public class Palabra extends Thread {
                                     arregloCaracteres[posicion] = 'Y';
                                     valores[posicion].setText(String.valueOf('Y'));
                                     estado = 2;
-                                   
+                                   generarArreglo("regla: (q1,Y) = (q2, Y, L)", "q2", "Revisando");
                                     System.out.println(arregloCaracteres);
                                     Movimiento a = new Movimiento(flecha , -20, 0);
                                     try {
@@ -228,6 +238,7 @@ public class Palabra extends Thread {
                             arregloCaracteres[posicion] = 'Y';
                             valores[posicion].setText(String.valueOf('Y'));
                             estado = 3;
+                            generarArreglo("regla: (q2,a) = (q3, Y, L)", "q3", "Revisando");
                             System.out.println(arregloCaracteres);
                             Movimiento a = new Movimiento(flecha , -20, 0);
                             try {
@@ -247,6 +258,7 @@ public class Palabra extends Thread {
                         else
                         {
                             valores[posicion].setBackground(new Color(255, 133, 133));
+                            generarArreglo("DESCONOCIDA", "?", "RECHAZADO");
                             System.out.println("RECHAZADO");
                             break;
                         }
@@ -262,7 +274,7 @@ public class Palabra extends Thread {
                                 arregloCaracteres[posicion] = 'a';
                                 valores[posicion].setText(String.valueOf('a'));
                                 estado = 3;
-                                
+                                generarArreglo("regla: (q3,a) = (q3, a, L)", "q3", "Revisando");
                                 System.out.println(arregloCaracteres);
                                 Movimiento a = new Movimiento(flecha , -20, 0);
                                 try {
@@ -288,7 +300,7 @@ public class Palabra extends Thread {
                                     arregloCaracteres[posicion] = 'b';
                                     valores[posicion].setText(String.valueOf('b'));
                                     estado = 3;
-                                    
+                                    generarArreglo("regla: (q3,b) = (q3, b, L)", "q3", "Revisando");
                                     System.out.println(arregloCaracteres);
                                     Movimiento a = new Movimiento(flecha , -20, 0);
                                     try {
@@ -314,7 +326,7 @@ public class Palabra extends Thread {
                                         arregloCaracteres[posicion] = 'Y';
                                         valores[posicion].setText(String.valueOf('Y'));
                                         estado = 0;
-                                      
+                                        generarArreglo("regla: (q3,Y) = (i, Y, R)", "i", "Revisando");
                                         System.out.println(arregloCaracteres);
                                         Movimiento a = new Movimiento(flecha , 20, 1);
                                         try {
@@ -346,6 +358,7 @@ public class Palabra extends Thread {
                                     arregloCaracteres[posicion] = 'a';
                                     valores[posicion].setText(String.valueOf('a'));
                                     estado = 4;
+                                    generarArreglo("regla: (q4,a) = (q4, a, R)", "q4", "Revisando");
                                     System.out.println(arregloCaracteres);
                                     Movimiento a = new Movimiento(flecha , 20,1);
                                     try {
@@ -371,7 +384,7 @@ public class Palabra extends Thread {
                                         arregloCaracteres[posicion] = 'b';
                                         valores[posicion].setText(String.valueOf('b'));
                                         estado = 4;
-                                        
+                                        generarArreglo("regla: (q4,b) = (q4, b, R)", "q4", "Revisando");
                                         System.out.println(arregloCaracteres);
                                         Movimiento a = new Movimiento(flecha , 20, 1);
                                         try {
@@ -397,7 +410,7 @@ public class Palabra extends Thread {
                                             arregloCaracteres[posicion] = 'Y';
                                             valores[posicion].setText(String.valueOf('Y'));
                                             estado = 5;
-                                           
+                                            generarArreglo("regla: (q4,Y) = (q5, Y, L)", "q5", "Revisando");
                                             System.out.println(arregloCaracteres);
                                             Movimiento a = new Movimiento(flecha , -20, 0);
                                             try {
@@ -423,7 +436,7 @@ public class Palabra extends Thread {
                                                 arregloCaracteres[posicion] = 'X';
                                                 valores[posicion].setText(String.valueOf('X'));
                                                 estado = 5;
-                                                
+                                                generarArreglo("regla: (q4,X) = (q5, X, L)", "q5", "Revisando");
                                                 System.out.println(arregloCaracteres);
                                                 Movimiento a = new Movimiento(flecha , -20, 0);
                                                 try {
@@ -455,7 +468,7 @@ public class Palabra extends Thread {
                                         arregloCaracteres[posicion] = 'Y';
                                         valores[posicion].setText(String.valueOf('Y'));
                                         estado = 3;
-                                        
+                                        generarArreglo("regla: (q5,b) = (q5, b, L)", "q3", "Revisando");
                                         System.out.println(arregloCaracteres);
                                         Movimiento a = new Movimiento(flecha , -20, 0);
                                         try {
@@ -477,6 +490,7 @@ public class Palabra extends Thread {
                                         if(arregloCaracteres[posicion] == 'a')
                                         {  
                                            valores[posicion].setBackground(new Color(255, 133, 133));
+                                           generarArreglo("DESCONOCIDA", "?", "RECHAZADO");
                                            System.out.println("RECHAZADO");
                                            break;
                                         }
@@ -484,7 +498,8 @@ public class Palabra extends Thread {
                                         {
                                             if(arregloCaracteres[posicion] == 'Y')
                                             {  
-                                                valores[posicion].setBackground(new Color(255, 133, 133));
+                                               valores[posicion].setBackground(new Color(255, 133, 133));
+                                               generarArreglo("DESCONOCIDA", "?", "RECHAZADO");
                                                System.out.println("RECHAZADO");
                                                break;
                                             } 
@@ -498,6 +513,27 @@ public class Palabra extends Thread {
                 }
             }
             
+        }
+        imprimirArray();
+    }
+    
+    public void generarArreglo(String regla, String estado, String situacion)
+    {
+        arrayListBidimensional.add(new ArrayList<>());
+        arrayListBidimensional.get(contador).add(regla);
+        arrayListBidimensional.get(contador).add(estado);
+        arrayListBidimensional.get(contador).add(situacion);
+        contador++;
+    }
+    
+    public void imprimirArray()
+    {
+        for (int i = 0; i < arrayListBidimensional.size(); i++) {
+           
+            for (int j = 0; j < 3; j++) {
+                System.out.print(arrayListBidimensional.get(i).get(j) + " ");
+            }
+            System.out.println();
         }
     }
 }
